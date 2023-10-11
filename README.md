@@ -1,1 +1,1 @@
-# web-app-cofee-shop
+# web-app-coffee-shop
