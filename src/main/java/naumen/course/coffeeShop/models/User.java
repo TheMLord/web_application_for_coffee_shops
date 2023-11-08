@@ -6,7 +6,7 @@ import jakarta.persistence.Table;
 
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class User {
 
     private String name;
@@ -18,12 +18,6 @@ public class User {
 
     public User() {
 
-    }
-
-    public User(String name, String phoneNumber, Long scores) {
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.scores = scores;
     }
 
     public User(String name, String phoneNumber, String mail, Long scores) {
