@@ -1,5 +1,6 @@
 package naumen.course.coffeeShop.controllers;
 
+import naumen.course.coffeeShop.dto.UpdateUserDTO;
 import naumen.course.coffeeShop.models.User;
 import naumen.course.coffeeShop.services.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,11 @@ public class UserController {
     @ResponseBody
     public List<User> getAllBook() {
         return userService.getAllUsers();
+    }
+
+    @PostMapping("/updateUser")
+    public void updateUser(UpdateUserDTO updateUserDTO) {
+        userService.update(updateUserDTO);
     }
 
     private UserService getUserService() {
