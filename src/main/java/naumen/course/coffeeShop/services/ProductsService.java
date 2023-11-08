@@ -21,10 +21,8 @@ public class ProductsService {
 
         if (optionalProduct.isPresent()) {
             var product = optionalProduct.get();
-            product.setAmount(
-                    product.getAmount() + newProduct.getAmount()
-            );
-            productRepository.save(product);
+            var newAmount = product.getAmount() + newProduct.getAmount();
+            productRepository.updateAmountByIdShopAndProductType(coffeeShopId, product.getProductType(), newAmount);
         } else {
             productRepository.save(newProduct);
         }
