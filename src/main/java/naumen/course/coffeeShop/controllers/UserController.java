@@ -3,11 +3,12 @@ package naumen.course.coffeeShop.controllers;
 import naumen.course.coffeeShop.dto.UpdateUserDTO;
 import naumen.course.coffeeShop.models.User;
 import naumen.course.coffeeShop.services.UserService;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 public class UserController {
     private final UserService userService;
 
@@ -16,8 +17,13 @@ public class UserController {
     }
 
     @PostMapping("/addUser")
-    public void addUser(@RequestBody User user) throws Exception {
-        userService.saveUsers(user);
+    public void addUser(@RequestParam("name") String name, @RequestParam("phoneNumber") String phoneNumber,
+                        @RequestParam(value = "mail", required = false) String mail, @RequestParam("scores") Long scores) throws Exception {
+        userService.saveUsers(new User(name, phoneNumber, mail, scores));
+    }
+    @GetMapping("/addUser")
+    public String getPageAddProduct() {
+        return "addUser";
     }
 
     @GetMapping("/allUser")
