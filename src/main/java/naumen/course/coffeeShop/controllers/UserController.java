@@ -17,10 +17,10 @@ public class UserController {
     }
 
     @PostMapping("/addUser")
-    public void addUser(@RequestParam("name") String name, @RequestParam("phoneNumber") String phoneNumber,
-                        @RequestParam(value = "mail", required = false) String mail, @RequestParam("scores") Long scores) throws Exception {
-        userService.saveUsers(new User(name, phoneNumber, mail, scores));
+    public void addUser(User user) throws Exception {
+        userService.saveUsers(user);
     }
+
     @GetMapping("/addUser")
     public String getPageAddProduct() {
         return "addUser";
@@ -35,6 +35,10 @@ public class UserController {
     @PostMapping("/updateUser")
     public void updateUser(UpdateUserDTO updateUserDTO) {
         userService.update(updateUserDTO);
+    }
+    @GetMapping("/updateUser")
+    public String getUpdateUser(UpdateUserDTO updateUserDTO) {
+        return "updateUser";
     }
 
     private UserService getUserService() {
