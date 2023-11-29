@@ -21,6 +21,7 @@ public class UserService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+
     public void saveUsers(User user) throws Exception {
         User userFromDb = userRepository.findByPhoneNumber(user.getPhoneNumber());
         if (userFromDb != null) {
@@ -28,11 +29,8 @@ public class UserService {
         }
         userRepository.save(user);
     }
+
     public void update(UpdateUserDTO updateUserDTO) {
-        System.out.println(updateUserDTO);
-        if (updateUserDTO.mail() != null)
-            userRepository.update(updateUserDTO.phoneNumber(), updateUserDTO.name(), updateUserDTO.mail(), updateUserDTO.scores());
-        else
-            userRepository.updateWithoutMail(updateUserDTO.phoneNumber(), updateUserDTO.name(), updateUserDTO.scores());
+        userRepository.save(new User(updateUserDTO.name(), updateUserDTO.phoneNumber(), updateUserDTO.mail(), updateUserDTO.scores()));
     }
 }
