@@ -1,5 +1,6 @@
 package naumen.course.coffeeShop.services;
 
+import naumen.course.coffeeShop.models.BonusClient;
 import naumen.course.coffeeShop.models.Product;
 import naumen.course.coffeeShop.models.ProductType;
 import naumen.course.coffeeShop.repositories.BonusClientRepository;
@@ -39,7 +40,7 @@ public class OrderService {
                     throw new Exception("Товара не хватает на складе");
                 }
                 productRepository.updateAmountByIdShopAndProductType(coffeeShopId, productDB.getProductType(), newAmount);
-                // bonusClientRepository.update - добавить бонусы пользователю
+                // bonusClientRepository.save(new BonusClient());
                 return newAmount * productDB.getCost();
             } else {
                 throw new Exception("Товара нет на складе");
@@ -48,6 +49,7 @@ public class OrderService {
         return 0l;
     }
 
+    @Transactional
     public long transferProducts(String text, Long coffeeShopId, String number) throws Exception {
         var productList = getOrder(text);
         for (var product : productList.entrySet()) {
@@ -59,9 +61,10 @@ public class OrderService {
                     throw new Exception("Товара не хватает на складе");
                 }
                 int price = newAmount * productDB.getCost();
-                Long bonus = bonusClientRepository.findByPhoneNumber(number).getScores();
-                // bonusClientRepository.update - списать бонусы с пользователя
-                return price - bonus;
+                var bonusClient = bonusClientRepository.findByPhoneNumber(number);
+//                bonusClientRepository.save(new BonusClient(bonusClient.getName(), bonusClient.getPhoneNumber(),
+//                        bonusClient.getMail(), bonusClient.getScores()));
+                return price - bonusClient.getScores();
             } else {
                 throw new Exception("Товара нет на складе");
             }
