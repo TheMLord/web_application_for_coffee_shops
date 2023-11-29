@@ -25,7 +25,7 @@ public class OrderService {
     }
 
     @Transactional
-    public String transferProducts(String text, Long coffeeShopId) throws Exception {
+    public void transferProducts(String text, Long coffeeShopId) throws Exception {
         var productList = getOrder(text);
         for (var product : productList.entrySet()) {
             var optionalProduct = productRepository.findByIdShopAndProductType(coffeeShopId, ProductType.valueOf(product.getKey()));
@@ -40,7 +40,6 @@ public class OrderService {
                 throw new Exception("Товара нет на складе");
             }
         }
-        return "Correct";
     }
 
     public static Map<String, Integer> getOrder(String text) {
