@@ -4,7 +4,9 @@ import naumen.course.coffeeShop.dto.UpdateUserDTO;
 import naumen.course.coffeeShop.models.BonusClient;
 import naumen.course.coffeeShop.services.BonusClientService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -36,6 +38,7 @@ public class BonusClientController {
     public void updateUser(UpdateUserDTO updateUserDTO) {
         bonusClientService.update(updateUserDTO);
     }
+
     @GetMapping("/updateUser")
     public String getUpdateUser(UpdateUserDTO updateUserDTO) {
         return "updateUser";

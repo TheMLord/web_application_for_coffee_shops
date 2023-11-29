@@ -2,6 +2,7 @@ package naumen.course.coffeeShop.services;
 
 import naumen.course.coffeeShop.models.Product;
 import naumen.course.coffeeShop.models.ProductType;
+import naumen.course.coffeeShop.repositories.BonusClientRepository;
 import naumen.course.coffeeShop.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,9 +16,11 @@ import java.util.stream.Collectors;
 public class OrderService {
 
     private final ProductRepository productRepository;
+    private final BonusClientRepository bonusClientRepository;
 
-    public OrderService(ProductRepository productRepository) {
+    public OrderService(ProductRepository productRepository, BonusClientRepository bonusClientRepository) {
         this.productRepository = productRepository;
+        this.bonusClientRepository = bonusClientRepository;
     }
 
     public List<Product> getAllProducts() {
@@ -25,7 +28,7 @@ public class OrderService {
     }
 
     @Transactional
-    public void transferProducts(String text, Long coffeeShopId) throws Exception {
+    public long transferProducts(String text, Long coffeeShopId) throws Exception {
         var productList = getOrder(text);
         for (var product : productList.entrySet()) {
             var optionalProduct = productRepository.findByIdShopAndProductType(coffeeShopId, ProductType.valueOf(product.getKey()));
@@ -36,10 +39,34 @@ public class OrderService {
                     throw new Exception("Товара не хватает на складе");
                 }
                 productRepository.updateAmountByIdShopAndProductType(coffeeShopId, productDB.getProductType(), newAmount);
+                // bonusClientRepository.update - добавить бонусы пользователю
+                return newAmount * productDB.getCost();
             } else {
                 throw new Exception("Товара нет на складе");
             }
         }
+        return 0l;
+    }
+
+    public long transferProducts(String text, Long coffeeShopId, String number) throws Exception {
+        var productList = getOrder(text);
+        for (var product : productList.entrySet()) {
+            var optionalProduct = productRepository.findByIdShopAndProductType(coffeeShopId, ProductType.valueOf(product.getKey()));
+            if (optionalProduct.isPresent()) {
+                var productDB = optionalProduct.get();
+                int newAmount = productDB.getAmount() - product.getValue();
+                if (newAmount < 0) {
+                    throw new Exception("Товара не хватает на складе");
+                }
+                int price = newAmount * productDB.getCost();
+                Long bonus = bonusClientRepository.findByPhoneNumber(number).getScores();
+                // bonusClientRepository.update - списать бонусы с пользователя
+                return price - bonus;
+            } else {
+                throw new Exception("Товара нет на складе");
+            }
+        }
+        return coffeeShopId;
     }
 
     public static Map<String, Integer> getOrder(String text) {
