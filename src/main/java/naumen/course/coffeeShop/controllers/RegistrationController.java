@@ -23,10 +23,13 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public String adduser(@RequestParam String login, @RequestParam String password, Model model) {
+    public String adduser(@RequestParam String login,
+                          @RequestParam String password,
+                          @RequestParam String address,
+                          Model model) {
 
         try {
-            coffeeShopService.addShop(new CoffeeShop(login, password, Role.USER));
+            coffeeShopService.addShop(new CoffeeShop(login, password, address, Role.USER));
             model.addAttribute("message", "Кофейня добавлена");
             return "registration";
         } catch (Exception e) {

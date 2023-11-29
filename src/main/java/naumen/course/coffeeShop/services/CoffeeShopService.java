@@ -8,6 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -18,9 +19,11 @@ import java.util.stream.Collectors;
 @Service
 public class CoffeeShopService implements UserDetailsService {
     private final CoffeeShopRepository coffeeShopRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public CoffeeShopService(CoffeeShopRepository coffeeShopRepository) {
+    public CoffeeShopService(CoffeeShopRepository coffeeShopRepository, PasswordEncoder passwordEncoder) {
         this.coffeeShopRepository = coffeeShopRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -43,11 +46,12 @@ public class CoffeeShopService implements UserDetailsService {
     }
 
     public void addShop(CoffeeShop coffeeShop) throws Exception {
-
         var coffeeShopFromDb = coffeeShopRepository.findByLogin(coffeeShop.getLogin());
         if (coffeeShopFromDb != null) {
             throw new Exception("user exist");
         }
+        coffeeShop.setPassword(passwordEncoder.encode(coffeeShop.getPassword()));
+
         coffeeShop.setRoles(Collections.singleton(Role.USER));
         coffeeShopRepository.save(coffeeShop);
     }
