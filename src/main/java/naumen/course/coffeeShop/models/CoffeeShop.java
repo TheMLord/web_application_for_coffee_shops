@@ -29,11 +29,27 @@ public class CoffeeShop {
 
     }
 
-    public CoffeeShop(String login, String password, String address, Role role) {
+    public CoffeeShop(String login, String password, String address) {
         this.login = login;
         this.password = password;
-        this.roles.add(role);
+        this.roles.add(Role.USER);
         this.address = address;
+    }
+
+    public CoffeeShop(Long id, String login, String password, String address, Role role) {
+        this.id = id;
+        this.login = login;
+        this.password = password;
+        this.address = address;
+        this.roles.add(role);
+    }
+
+    public CoffeeShop(Long id, String login, String password, String address, Set<Role> roles) {
+        this.id = id;
+        this.login = login;
+        this.password = password;
+        this.address = address;
+        this.roles = roles;
     }
 
     public Long getId() {

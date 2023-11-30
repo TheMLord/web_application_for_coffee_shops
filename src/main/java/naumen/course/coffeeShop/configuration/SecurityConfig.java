@@ -21,9 +21,11 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((authz) -> authz
-                        .requestMatchers("/login", "/registration", "/logout").permitAll()
-                        .requestMatchers("/delete/**").hasRole("ADMIN")
+                        .requestMatchers("/login", "/logout").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/coffeeShop/**").hasRole("USER")
                         .anyRequest().authenticated())
+
                 .formLogin(Customizer.withDefaults());
         return http.build();
     }

@@ -6,4 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface CoffeeShopRepository extends CrudRepository<CoffeeShop, Long> {
 
     CoffeeShop findByLogin(String login);
+
+    void deleteByLogin(String login);
 }

@@ -1,5 +1,6 @@
 package naumen.course.coffeeShop.services;
 
+import jakarta.transaction.Transactional;
 import naumen.course.coffeeShop.models.CoffeeShop;
 import naumen.course.coffeeShop.models.Role;
 import naumen.course.coffeeShop.repositories.CoffeeShopRepository;
@@ -45,6 +46,7 @@ public class CoffeeShopService implements UserDetailsService {
         return coffeeShopRepository.findByLogin(login);
     }
 
+    @Transactional
     public void addShop(CoffeeShop coffeeShop) throws Exception {
         var coffeeShopFromDb = coffeeShopRepository.findByLogin(coffeeShop.getLogin());
         if (coffeeShopFromDb != null) {
@@ -54,5 +56,14 @@ public class CoffeeShopService implements UserDetailsService {
 
         coffeeShop.setRoles(Collections.singleton(Role.USER));
         coffeeShopRepository.save(coffeeShop);
+    }
+
+    @Transactional
+    public void deleteShop(String login) throws Exception {
+        var coffeeShopFromDb = coffeeShopRepository.findByLogin(login);
+        if (coffeeShopFromDb == null) {
+            throw new Exception("нет такой кофейни, удалить невозможно");
+        }
+        coffeeShopRepository.deleteByLogin(login);
     }
 }
