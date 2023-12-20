@@ -29,7 +29,7 @@ public class CoffeeShop {
 
     }
 
-    public CoffeeShop(String login, String password, String address) {
+    public CoffeeShop(String login, String address, String password) {
         this.login = login;
         this.password = password;
         this.roles.add(Role.USER);

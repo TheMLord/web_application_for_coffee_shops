@@ -1,6 +1,6 @@
 package naumen.course.coffeeShop.services;
 
-import jakarta.transaction.Transactional;
+import naumen.course.coffeeShop.dto.CoffeeShopDTO;
 import naumen.course.coffeeShop.models.CoffeeShop;
 import naumen.course.coffeeShop.models.Role;
 import naumen.course.coffeeShop.repositories.CoffeeShopRepository;
@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -47,7 +48,9 @@ public class CoffeeShopService implements UserDetailsService {
     }
 
     @Transactional
-    public void addShop(CoffeeShop coffeeShop) throws Exception {
+    public void addShop(CoffeeShopDTO newCoffeeShop) throws Exception {
+        var coffeeShop = new CoffeeShop(newCoffeeShop.login(), newCoffeeShop.address(), newCoffeeShop.password());
+
         var coffeeShopFromDb = coffeeShopRepository.findByLogin(coffeeShop.getLogin());
         if (coffeeShopFromDb != null) {
             throw new Exception("user exist");
@@ -65,5 +68,9 @@ public class CoffeeShopService implements UserDetailsService {
             throw new Exception("нет такой кофейни, удалить невозможно");
         }
         coffeeShopRepository.deleteByLogin(login);
+    }
+
+    public List<CoffeeShop> getCoffeeShopList(){
+        return coffeeShopRepository.findAll();
     }
 }

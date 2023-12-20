@@ -1,6 +1,6 @@
-package naumen.course.coffeeShop.controllers;
+package naumen.course.coffeeShop.controllers.admins;
 
-import naumen.course.coffeeShop.models.CoffeeShop;
+import naumen.course.coffeeShop.dto.CoffeeShopDTO;
 import naumen.course.coffeeShop.services.CoffeeShopService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,14 +19,14 @@ public class RegistrationController {
 
     @GetMapping("/registration")
     public String getRegistration() {
-        return "registration";
+        return "admin/registration";
     }
 
     @PostMapping("/registration")
-    public String adduser(CoffeeShop coffeeShop,
+    public String adduser(CoffeeShopDTO newCoffeeShop,
                           Model model) {
         try {
-            coffeeShopService.addShop(coffeeShop);
+            coffeeShopService.addShop(newCoffeeShop);
             model.addAttribute("message", "Кофейня добавлена");
             return "admin/registration";
         } catch (Exception e) {

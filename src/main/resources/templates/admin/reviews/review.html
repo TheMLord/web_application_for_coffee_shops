@@ -73,21 +73,20 @@
     </style>
 </head>
 <body>
-<div th:if="${message}">
-    <div th:text="${message}"></div>
-</div>
-<div id="navigation">
-    <a th:href="@{/}">Главная страница</a>
-    <a th:href="@{/admin/registration}">Добавить кофейню</a>
-    <a th:href="@{/admin/addProductType}">Добавить тип продукта</a>
-    <a th:href="@{/admin/deleteTypeProduct}">Удалить тип продукта</a>
-    <a th:href="@{/admin/review}">Обзор</a>
-    <a th:href="@{/logout}">Выход</a>
-</div>
+    <div id="navigation">
+        <a th:href="@{/}">Главная страница</a>
+        <a th:href="@{/admin/registration}">Добавить кофейню</a>
+        <a th:href="@{/admin/deleteCoffeeShop}">Удалить кофейню</a>
+        <a th:href="@{/admin/addProductType}">Добавить тип продукта</a>
+        <a th:href="@{/admin/deleteTypeProduct}">Удалить тип продукта</a>
+        <a th:href="@{/logout}">Выход</a>
+    </div>
 
-<form th:action="@{/admin/deleteCoffeeShop}" method="post">
-    <div><label>Логин: <input type="text" name="login"/> </label></div>
-    <div><input type="submit" value="Зарегистрировать"/></div>
-</form>
+    <form th:action="@{/admin/review/getCoffeeShops}" method="post">
+        <div><input type="submit" value="Показать кофейни"/></div>
+    </form>
+    <form th:action="@{/admin/review/getProductTypesList}" method="post">
+        <div><input type="submit" value="Показать типы продуктов"/></div>
+    </form>
 </body>
 </html>

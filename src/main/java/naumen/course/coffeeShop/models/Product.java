@@ -9,8 +9,8 @@ public class Product {
     @JoinColumn(table = "coffee_shop", referencedColumnName = "id")
     private Long idShop;
 
-    @Enumerated(EnumType.STRING)
-    private ProductType productType;
+    @JoinColumn(table = "coffee_shop_products_type", referencedColumnName = "id")
+    private Long productTypeId;
 
     @Column(nullable = false)
     private Integer cost;
@@ -22,10 +22,10 @@ public class Product {
 
     }
 
-    public Product(Long idShop, ProductType productType, Integer amount) {
+    public Product(Long idShop, Long productTypeId, int cost, Integer amount) {
         this.idShop = idShop;
-        this.productType = productType;
-        this.cost = this.productType.getCost();
+        this.productTypeId = productTypeId;
+        this.cost = cost;
         this.amount = amount;
     }
 
@@ -33,12 +33,20 @@ public class Product {
         return idShop;
     }
 
-    public ProductType getProductType() {
-        return productType;
+    public Long getProductTypeId() {
+        return productTypeId;
+    }
+
+    public void setProductTypeId(Long productTypeId) {
+        this.productTypeId = productTypeId;
     }
 
     public Integer getCost() {
         return cost;
+    }
+
+    public void setCost(Integer cost) {
+        this.cost = cost;
     }
 
     public Integer getAmount() {

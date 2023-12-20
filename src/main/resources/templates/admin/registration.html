@@ -77,8 +77,11 @@
     <div th:text="${message}"></div>
 </div>
 <div id="navigation">
-    <a th:href="@{/static}">Главная страница</a>
+    <a th:href="@{/}">Главная страница</a>
     <a th:href="@{/admin/deleteCoffeeShop}">Удалить кофейню</кофейню></a>
+    <a th:href="@{/admin/addProductType}">Добавить тип продукта</a>
+    <a th:href="@{/admin/deleteTypeProduct}">Удалить тип продукта</a>
+    <a th:href="@{/admin/review}">Обзор</a>
     <a th:href="@{/logout}">Выход</a>
 </div>
 <form th:action="@{/admin/registration}" method="post">

@@ -1,4 +1,4 @@
-package naumen.course.coffeeShop.controllers;
+package naumen.course.coffeeShop.controllers.coffeeShop;
 
 import naumen.course.coffeeShop.dto.UpdateUserDTO;
 import naumen.course.coffeeShop.models.User;

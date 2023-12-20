@@ -1,4 +1,4 @@
-package naumen.course.coffeeShop.controllers;
+package naumen.course.coffeeShop.controllers.admins;
 
 import naumen.course.coffeeShop.services.CoffeeShopService;
 import org.springframework.stereotype.Controller;
