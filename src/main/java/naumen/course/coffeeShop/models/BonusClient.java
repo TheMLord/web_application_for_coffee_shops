@@ -7,7 +7,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class BonusClient {
 
     private String name;
     @Id
@@ -16,11 +16,11 @@ public class User {
 
     private Long scores;
 
-    public User() {
+    public BonusClient() {
 
     }
 
-    public User(String name, String phoneNumber, String mail, Long scores) {
+    public BonusClient(String name, String phoneNumber, String mail, Long scores) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.mail = mail;
