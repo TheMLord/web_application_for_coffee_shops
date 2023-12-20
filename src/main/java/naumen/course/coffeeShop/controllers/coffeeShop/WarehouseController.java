@@ -25,8 +25,8 @@ public class WarehouseController {
     private final ProductTypeRepository productTypeRepository;
 
 
-    public WarehouseController(WarehouseService productsService, CoffeeShopService coffeeShopService, ProductTypeRepository productTypeRepository) {
-        this.warehouseService = productsService;
+    public WarehouseController(WarehouseService warehouseService, CoffeeShopService coffeeShopService, ProductTypeRepository productTypeRepository) {
+        this.warehouseService = warehouseService;
         this.coffeeShopService = coffeeShopService;
         this.productTypeRepository = productTypeRepository;
     }
@@ -38,23 +38,7 @@ public class WarehouseController {
 
     @PostMapping("/addProduct")
     public String addProduct(Model model, @RequestParam String nameProduct, @RequestParam Integer amountProduct) {
-        try {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            var coffeeShop = coffeeShopService.getCoffeeShop(auth.getName());
-            var coffeeShopId = coffeeShop.getId();
-            Optional<ProductType> productType = productTypeRepository.findProductTypeByNameProduct(nameProduct);
-            if (productType.isEmpty()) {
-                System.out.println(11);
-            } else {
-                warehouseService.addWarehouse(
-                        new Warehouse(coffeeShopId, productType.get().getId(), amountProduct),
-                        coffeeShopId
-                );
-                model.addAttribute("message", "продукт добавлен");
-            }
-        } catch (Exception e) {
-            model.addAttribute("message", e.getMessage());
-        }
+        warehouseService.addWarehouse(model, nameProduct, amountProduct);
         return "addProduct";
     }
 }

@@ -13,14 +13,12 @@ public class Warehouse {
     private Long productTypeId;
 
     @Column(nullable = false)
-    private Integer cost;
-
-    @Column(nullable = false)
     private Integer amount;
 
     public Warehouse() {
 
     }
+
     public Warehouse(Long idShop, Long productTypeId, Integer amount) {
         this.idShop = idShop;
         this.productTypeId = productTypeId;
@@ -39,13 +37,6 @@ public class Warehouse {
         this.productTypeId = productTypeId;
     }
 
-    public Integer getCost() {
-        return cost;
-    }
-
-    public void setCost(Integer cost) {
-        this.cost = cost;
-    }
 
     public Integer getAmount() {
         return amount;
