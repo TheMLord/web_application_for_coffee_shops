@@ -1,8 +1,8 @@
 package naumen.course.coffeeShop.controllers.coffeeShop;
 
 import naumen.course.coffeeShop.dto.UpdateUserDTO;
-import naumen.course.coffeeShop.models.User;
-import naumen.course.coffeeShop.services.UserService;
+import naumen.course.coffeeShop.models.BonusClient;
+import naumen.course.coffeeShop.services.BonusClientService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,39 +10,40 @@ import java.util.List;
 
 @Controller
 public class UserController {
-    private final UserService userService;
+    private final BonusClientService bonusClientService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public UserController(BonusClientService bonusClientService) {
+        this.bonusClientService = bonusClientService;
     }
 
-    @PostMapping("/addUser")
-    public void addUser(User user) throws Exception {
-        userService.saveUsers(user);
+    @PostMapping("/addBonusClient")
+    public void addBonusClient(BonusClient bonusClient) throws Exception {
+        bonusClientService.saveUsers(bonusClient);
     }
 
-    @GetMapping("/addUser")
+    @GetMapping("/addBonusClient")
     public String getPageAddProduct() {
-        return "addUser";
+        return "addBonusClient";
     }
 
-    @GetMapping("/allUser")
+    @GetMapping("/allBonusClient")
     @ResponseBody
-    public List<User> getAllBook() {
-        return userService.getAllUsers();
+    public List<BonusClient> getAllBonusClient() {
+        return bonusClientService.getAllUsers();
     }
 
-    @PostMapping("/updateUser")
-    public void updateUser(UpdateUserDTO updateUserDTO) {
-        userService.update(updateUserDTO);
-    }
-    @GetMapping("/updateUser")
-    public String getUpdateUser(UpdateUserDTO updateUserDTO) {
-        return "updateUser";
+    @PostMapping("/updateBonusClient")
+    public void updateBonusClient(UpdateUserDTO updateUserDTO) {
+        bonusClientService.update(updateUserDTO);
     }
 
-    private UserService getUserService() {
-        return userService;
+    @GetMapping("/updateBonusClient")
+    public String getUpdateBonusClient(UpdateUserDTO updateUserDTO) {
+        return "updateBonusClient";
+    }
+
+    private BonusClientService getBonusClientService() {
+        return bonusClientService;
     }
 
 }

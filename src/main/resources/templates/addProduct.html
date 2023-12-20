@@ -8,7 +8,7 @@
 <div th:if="${message}">
     <div th:text="${message}"></div>
 </div>
-<form th:action="@{/addProduct}" method="post">
+<form th:action="@{/coffeeShop/addProduct}" method="post">
     <div><label> name product : <input type="text" name="nameProduct"/> </label></div>
     <div><label> amount product: <input type="number" name="amountProduct"/> </label></div>
     <div><input type="submit" value="Добавить продукт"/></div>

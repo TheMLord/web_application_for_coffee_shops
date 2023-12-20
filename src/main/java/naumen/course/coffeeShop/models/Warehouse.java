@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "coffee_shop_products")
-public class Product {
+public class Warehouse {
     @Id
     @JoinColumn(table = "coffee_shop", referencedColumnName = "id")
     private Long idShop;
@@ -18,14 +18,12 @@ public class Product {
     @Column(nullable = false)
     private Integer amount;
 
-    public Product() {
+    public Warehouse() {
 
     }
-
-    public Product(Long idShop, Long productTypeId, int cost, Integer amount) {
+    public Warehouse(Long idShop, Long productTypeId, Integer amount) {
         this.idShop = idShop;
         this.productTypeId = productTypeId;
-        this.cost = cost;
         this.amount = amount;
     }
 
