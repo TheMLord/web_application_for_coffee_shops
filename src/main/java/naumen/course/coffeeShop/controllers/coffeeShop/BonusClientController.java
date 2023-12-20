@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-public class UserController {
+public class BonusClientController {
     private final BonusClientService bonusClientService;
 
-    public UserController(BonusClientService bonusClientService) {
+    public BonusClientController(BonusClientService bonusClientService) {
         this.bonusClientService = bonusClientService;
     }
 
