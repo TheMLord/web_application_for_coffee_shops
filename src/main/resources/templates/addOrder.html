@@ -11,7 +11,8 @@
 <form th:action="@{/getOrder}" method="post">
   <div><label> List products : <input type="text" name="text"/> </label></div>
   <div><label> Number : <input type="tel" name="number"/> </label></div>
-  <div><input type="submit" value="Оплатить"/></div>
+  <div><input type="submit" name="pay" value="Оплатить"/></div>
+  <div><input type="submit" name="bonus" value="Оплатить баллами"></div>
 </form>
 </body>
 </html>

@@ -21,7 +21,18 @@ public class OrderController {
     }
 
     @PostMapping("/getOrder")
-    public String getOrder(String text, @RequestParam(defaultValue = "") String number, Model model) {
+    public String getOrder(String text, String number, Model model) {
+        //@RequestParam("pay") String action, @RequestParam("bonus") String action2
+        //        try {
+//            long price;
+//            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//            var coffeeShop = coffeeShopService.getCoffeeShop(auth.getName());
+//
+//            if("")
+//        } catch (Exception e) {
+//            model.addAttribute("message", e.getMessage());
+//            return "addOrder";
+//        }
         try {
             long price;
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
