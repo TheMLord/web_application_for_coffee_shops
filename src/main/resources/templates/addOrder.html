@@ -1,18 +1,65 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-    <title>Add order</title>
+    <title>Корзина</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2e1d3;
+            margin: 0;
+            padding: 0;
+        }
+        #order-form {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #693c1d;
+        }
+        label {
+            display: block;
+            margin: 10px 0;
+            color: #693c1d;
+        }
+        input[type="text"],
+        input[type="tel"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        input[type="submit"] {
+            background-color: #693c1d;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #8e5f3d;
+            background-color: #8e5f3d;
+        }
+    </style>
 </head>
 <body>
-<div th:if="${message}">
-    <div th:text="${message}"></div>
+<div id="order-form">
+    <h1>Корзина</h1>
+    <form th:action="@{/coffeeShop/getOrder}" method="post">
+        <label>Продукты: <input type="text" name="text"/></label>
+        <label>Укажите номер телефона: <input type="tel" name="number"/></label>
+        <label>Списать бонусы <input type="checkbox" name="bonus" value="bonus"></label>
+        <input type="submit" name="pay" value="Оплатить"/>
+    </form>
 </div>
-<form th:action="@{/getOrder}" method="post">
-    <div><label> Продукты : <input type="text" name="text"/> </label></div>
-    <div><label> Номер телефона : <input type="tel" name="number"/> </label></div>
-    <div><label> Списать бонусы : <input type="checkbox" name="bonus" value="bonus"></label></div>
-    <div><input type="submit" name="pay" value="Оплатить"/></div>
-</form>
 </body>
 </html>

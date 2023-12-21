@@ -1,4 +1,4 @@
-package naumen.course.coffeeShop.controllers;
+package naumen.course.coffeeShop.controllers.coffeeShop;
 
 import naumen.course.coffeeShop.services.CoffeeShopService;
 import naumen.course.coffeeShop.services.OrderService;
@@ -8,9 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@RequestMapping("/coffeeShop")
 public class OrderController {
     private final OrderService orderService;
     private final CoffeeShopService coffeeShopService;

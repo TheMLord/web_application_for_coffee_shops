@@ -18,8 +18,9 @@ public class BonusClientController {
     }
 
     @PostMapping("/addBonusClient")
-    public void addBonusClient(BonusClient bonusClient) throws Exception {
+    public String addBonusClient(BonusClient bonusClient) throws Exception {
         bonusClientService.saveUsers(bonusClient);
+        return "addBonusClient";
     }
 
     @GetMapping("/addBonusClient")
