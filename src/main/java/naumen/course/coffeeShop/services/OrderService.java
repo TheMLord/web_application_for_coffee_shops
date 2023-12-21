@@ -37,6 +37,7 @@ public class OrderService {
     @Transactional
     public long transferProducts(String text, Long coffeeShopId) throws Exception {
         var productList = getOrder(text);
+        long price = 0;
         for (var product : productList.entrySet()) {
             Optional<ProductType> optionalProductType = productTypeRepository.findProductTypeByNameProduct(product.getKey());
             if (optionalProductType.isEmpty()) {
@@ -50,19 +51,21 @@ public class OrderService {
                     throw new Exception("Товара не хватает на складе");
                 }
                 productRepository.save(new Warehouse(coffeeShopId, productDB.getProductTypeId(), newAmount));
-
-                return product.getValue() * optionalProductType.get().getCost();
+                price += product.getValue() * optionalProductType.get().getCost();
             } else {
                 throw new Exception("Товара нет на складе");
             }
         }
-        return 0l;
+        return price;
     }
 
     //Списывает или зачисляет баллы
     @Transactional
     public long transferProducts(String text, Long coffeeShopId, String number, boolean flag) throws Exception {
         var productList = getOrder(text);
+        var bonusClient = bonusClientRepository.findByPhoneNumber(number);
+        long price = 0l;
+
         for (var product : productList.entrySet()) {
 
             Optional<ProductType> optionalProductType = productTypeRepository.findProductTypeByNameProduct(product.getKey());
@@ -72,64 +75,38 @@ public class OrderService {
             }
 
             var optionalProduct = productRepository.findFirstByIdShopAndProductTypeId(coffeeShopId, optionalProductType.get().getId());
-
             if (optionalProduct.isPresent()) {
                 var productDB = optionalProduct.get();
                 int newAmount = productDB.getAmount() - product.getValue();
                 if (newAmount < 0) {
                     throw new Exception("Товара не хватает на складе");
                 }
-                int price = product.getValue() * optionalProductType.get().getCost();
-                var bonusClient = bonusClientRepository.findByPhoneNumber(number);
-
-                if (flag) {
-                    long scores = 0;
-                    long bonusClientScores = bonusClient.getScores();
-                    if (price > bonusClientScores) {
-                        price -= bonusClientScores;
-                        bonusClientRepository.save(new BonusClient(bonusClient.getName(), bonusClient.getPhoneNumber(),
-                                bonusClient.getMail(), scores));
-                    } else {
-                        scores = bonusClientScores - price;
-                        price = 0;
-                        bonusClientRepository.save(new BonusClient(bonusClient.getName(), bonusClient.getPhoneNumber(),
-                                bonusClient.getMail(), scores));
-                    }
-                } else {
-                    bonusClientRepository.save(new BonusClient(bonusClient.getName(), bonusClient.getPhoneNumber(),
-                            bonusClient.getMail(), bonusClient.getScores() + price / 100));
-                }
+                price += product.getValue() * optionalProductType.get().getCost();
                 productRepository.save(new Warehouse(coffeeShopId, productDB.getProductTypeId(), newAmount));
-                return price;
             } else {
                 throw new Exception("Товара нет на складе");
             }
         }
-        return 0l;
-    }
+        if (flag) {
+            long scores = 0;
+            long bonusClientScores = bonusClient.getScores();
+            if (price > bonusClientScores) {
+                price -= bonusClientScores;
+                bonusClientRepository.save(new BonusClient(bonusClient.getName(), bonusClient.getPhoneNumber(),
+                        bonusClient.getMail(), scores));
+            } else {
+                scores = bonusClientScores - price;
+                price = 0;
+                bonusClientRepository.save(new BonusClient(bonusClient.getName(), bonusClient.getPhoneNumber(),
+                        bonusClient.getMail(), scores));
+            }
+        } else {
+            bonusClientRepository.save(new BonusClient(bonusClient.getName(), bonusClient.getPhoneNumber(),
+                    bonusClient.getMail(), bonusClient.getScores() + price / 10));
+        }
 
-//    @Transactional
-//    public long transferProducts(String text, Long coffeeShopId, String number) throws Exception {
-//        var productList = getOrder(text);
-//        for (var product : productList.entrySet()) {
-//            var optionalProduct = productRepository.findByIdShopAndProductType(coffeeShopId, ProductType.valueOf(product.getKey()));
-//            if (optionalProduct.isPresent()) {
-//                var productDB = optionalProduct.get();
-//                int newAmount = productDB.getAmount() - product.getValue();
-//                if (newAmount < 0) {
-//                    throw new Exception("Товара не хватает на складе");
-//                }
-//                int price = newAmount * productDB.getCost();
-//                var bonusClient = bonusClientRepository.findByPhoneNumber(number);
-////                bonusClientRepository.save(new BonusClient(bonusClient.getName(), bonusClient.getPhoneNumber(),
-////                        bonusClient.getMail(), bonusClient.getScores()));
-//                return price - bonusClient.getScores();
-//            } else {
-//                throw new Exception("Товара нет на складе");
-//            }
-//        }
-//        return coffeeShopId;
-//    }
+        return price;
+    }
 
     public static Map<String, Integer> getOrder(String text) {
         return Arrays.stream(text.split(" "))

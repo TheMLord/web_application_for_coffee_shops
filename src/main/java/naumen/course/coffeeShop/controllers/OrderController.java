@@ -21,26 +21,21 @@ public class OrderController {
     }
 
     @PostMapping("/getOrder")
-    public String getOrder(String text, String number, Model model) {
-        //@RequestParam("pay") String action, @RequestParam("bonus") String action2
-        //        try {
-//            long price;
-//            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//            var coffeeShop = coffeeShopService.getCoffeeShop(auth.getName());
-//
-//            if("")
-//        } catch (Exception e) {
-//            model.addAttribute("message", e.getMessage());
-//            return "addOrder";
-//        }
+    public String getOrder(@RequestParam(value = "text") String text, @RequestParam(required = false) String number,
+                           @RequestParam(required = false) String bonus,
+                           Model model) {
         try {
+            boolean flag = true;
+            if (bonus == null) {
+                flag = false;
+            }
             long price;
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             var coffeeShop = coffeeShopService.getCoffeeShop(auth.getName());
             if (number == "") {
                 price = orderService.transferProducts(text, coffeeShop.getId());
             } else {
-                price = orderService.transferProducts(text, coffeeShop.getId(), number, false);
+                price = orderService.transferProducts(text, coffeeShop.getId(), number, flag);
             }
             model.addAttribute("message", "Оплата прошла успешно. Итоговая ценна: " + price);
             return "addOrder";
