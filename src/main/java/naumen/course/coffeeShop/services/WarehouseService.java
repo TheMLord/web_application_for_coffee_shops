@@ -34,7 +34,6 @@ public class WarehouseService {
         if (optionalWarehouse.isPresent()) {
             var warehouse = optionalWarehouse.get();
             var newAmount = warehouse.getAmount() + newWarehouse.getAmount();
-
             warehouseRepository.save(new Warehouse(coffeeShopId, warehouse.getProductTypeId(), newAmount));
         } else {
             warehouseRepository.save(newWarehouse);

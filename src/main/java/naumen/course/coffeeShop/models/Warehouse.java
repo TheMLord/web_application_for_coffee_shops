@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 @Table(name = "coffee_shop_products")
 public class Warehouse {
     @Id
+    @GeneratedValue
+    Long id;
     @JoinColumn(table = "coffee_shop", referencedColumnName = "id")
     private Long idShop;
 
