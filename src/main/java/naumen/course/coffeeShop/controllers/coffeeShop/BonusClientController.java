@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@RequestMapping("/coffeeShop")
 public class BonusClientController {
     private final BonusClientService bonusClientService;
 

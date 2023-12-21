@@ -40,7 +40,7 @@ public class OrderController {
             if (number == "") {
                 price = orderService.transferProducts(text, coffeeShop.getId());
             } else {
-                price = orderService.transferProducts(text, coffeeShop.getId(), number);
+                price = orderService.transferProducts(text, coffeeShop.getId(), number, false);
             }
             model.addAttribute("message", "Оплата прошла успешно. Итоговая ценна: " + price);
             return "addOrder";
